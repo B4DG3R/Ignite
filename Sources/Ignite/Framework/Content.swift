@@ -9,6 +9,9 @@ import Foundation
 
 /// One piece of Markdown content for this site.
 public struct Content {
+    /// The Id of the added content.
+    public var id: UUID
+    
     /// The main title for this content.
     public var title: String
 
@@ -128,6 +131,9 @@ public struct Content {
         in context: PublishingContext,
         resourceValues: URLResourceValues
     ) throws {
+        // Set the Id, allowing the content to be equatable.
+        id = UUID()
+        
         // Use whatever Markdown renderer was configured
         // for the site we're publishing.
         let parser = try context.site.markdownRenderer.init(url: url, removeTitleFromBody: true)
@@ -226,5 +232,12 @@ public struct Content {
         formatter.dateFormat = "y-MM-dd HH:mm"
         formatter.timeZone = .gmt
         return formatter.date(from: date)
+    }
+}
+
+extension Content: Equatable {
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
     }
 }
