@@ -123,6 +123,8 @@ public struct CoreAttributes: Sendable {
             return output
         }
     }
+    
+    public init() {}
 
     /// Appends an array of CSS classes to the current element.
     /// - Parameter classes: The CSS classes to append.
