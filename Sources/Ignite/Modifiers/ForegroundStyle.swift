@@ -52,4 +52,18 @@ public extension PageElement {
     func foregroundStyle(_ color: String) -> Self {
         self.style("color: \(color)")
     }
+    
+    func foregroundGradient(
+        _ angle: Int = 0,
+        colors: String...
+    ) -> Self {
+        
+        let colorString = colors.joined(separator: ", ")
+        
+        return self.style(
+            "background: linear-gradient(\(angle)deg, \(colorString))",
+            "-webkit-background-clip: text",
+            "-webkit-text-fill-color: transparent"
+        )
+    }
 }

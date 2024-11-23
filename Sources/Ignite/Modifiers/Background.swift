@@ -11,7 +11,7 @@ import Foundation
 public enum BackgroundStyle {
     /// A linear gradient between two fixed locations.
     case linearGradient(colors: [Color], startPoint: UnitPoint, endPoint: UnitPoint)
-
+    
     /// A radial gradient, emanating outwards.
     case radialGradient(colors: [Color])
 
@@ -27,6 +27,12 @@ public enum BackgroundStyle {
             return "radial-gradient(\(colorsString))"
         }
     }
+    
+    // linear-gradient(60deg, rgb(2,0,36) 0%, rgb(9,9,121) 34%, rgb(0,212,255) 100%)
+    // linear-gradient(225deg, rgb(44,43,47) 0%, rgb(43,42,45) 100%)
+    
+    
+    // linear-gradient(225deg, rgb(44 43 47 / 100%), rgb(43 42 45 / 100%))
 }
 
 public extension PageElement {
@@ -75,4 +81,14 @@ public extension PageElement {
         let grouped = styles.map(\.style).joined(separator: ", ")
         return self.style("background: \(grouped)")
     }
+    
+    func customBackground(
+        _ style: String
+    ) -> Self {
+        guard style.isEmpty == false else { return self }
+
+        return self.style("background: \(style)")
+    }
 }
+
+

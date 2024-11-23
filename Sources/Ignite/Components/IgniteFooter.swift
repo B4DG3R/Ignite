@@ -18,6 +18,7 @@ public struct IgniteFooter: Component {
             Link("Ignite", target: URL("https://github.com/twostraws/Ignite"))
         }
         .horizontalAlignment(.center)
+        .foregroundStyle("#CFCFCF")
         .margin(.top, .extraLarge)
     }
 }
