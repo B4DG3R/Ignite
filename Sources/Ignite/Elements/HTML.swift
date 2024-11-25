@@ -18,6 +18,8 @@ public struct HTML: PageElement {
 
     /// The user-facing contents of this page.
     var body: Body?
+    
+    var analytics: Analytics?
 
     /// Creates a new `HTML` instance using a root element builder of objects.
     /// - Parameter contents: A root element builder that generates the array
@@ -28,6 +30,8 @@ public struct HTML: PageElement {
                 head = headItem
             } else if let bodyItem = item as? Body {
                 body = bodyItem
+            } else if let analyticsItem = item as? Analytics {
+                analytics = analyticsItem
             }
         }
     }
@@ -39,6 +43,7 @@ public struct HTML: PageElement {
         var output = "<!doctype html>"
         output += "<html lang=\"\(context.site.language.rawValue)\" data-bs-theme=\"light\"\(attributes.description)>"
         output += head?.render(context: context) ?? ""
+        output += analytics?.render(context: context) ?? ""
         output += body?.render(context: context) ?? ""
         output += "</html>"
 
