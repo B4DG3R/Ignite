@@ -24,6 +24,12 @@ public struct Column: HTML, HorizontalAligning {
     /// The content and behavior of this HTML.
     public var body: some HTML { self }
 
+    /// The unique identifier of this HTML.
+    public var id = UUID().uuidString.truncatedHash
+
+    /// Whether this HTML belongs to the framework.
+    public var isPrimitive: Bool { true }
+
     /// How many columns this should occupy when placed in a section.
     var columnSpan = 1
 
@@ -68,7 +74,8 @@ public struct Column: HTML, HorizontalAligning {
         if verticalAlignment != .top {
             columnAttributes.append(classes: ["align-\(verticalAlignment.rawValue)"])
         }
-
-        return "<td colspan=\"\(columnSpan)\"\(columnAttributes.description)>\(FlatHTML(items).render(context: context))</td>"
+        columnAttributes.tag = "td colspan=\"\(columnSpan)\""
+        columnAttributes.closingTag = "td"
+        return columnAttributes.description(wrapping: HTMLCollection(items).render(context: context))
     }
 }

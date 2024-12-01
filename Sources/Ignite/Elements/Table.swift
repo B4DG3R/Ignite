@@ -8,7 +8,7 @@
 import Foundation
 
 /// Used to create tabulated data on a page.
-public struct Table: BlockElement {
+public struct Table: BlockHTML {
     /// Styling options for tables.
     public enum Style {
         /// All table rows and columns look the same. The default.
@@ -25,6 +25,12 @@ public struct Table: BlockElement {
 
     /// The content and behavior of this HTML.
     public var body: some HTML { self }
+
+    /// The unique identifier of this HTML.
+    public var id = UUID().uuidString.truncatedHash
+
+    /// Whether this HTML belongs to the framework.
+    public var isPrimitive: Bool { true }
 
     /// How many columns this should occupy when placed in a section.
     public var columnWidth = ColumnWidth.automatic
@@ -61,10 +67,10 @@ public struct Table: BlockElement {
     ///   - header: An array of headers to use at the top of the table.
     public init(
         @ElementBuilder<Row> rows: () -> [Row],
-        @HTMLBuilder header: () -> [any HTML]
+        @HTMLBuilder header: () -> some HTML
     ) {
         self.rows = rows()
-        self.header = header()
+        self.header = flatUnwrap(header())
     }
 
     /// Adjusts the style of this table.
@@ -113,7 +119,7 @@ public struct Table: BlockElement {
             tableAttributes.append(classes: ["table-striped-columns"])
         }
 
-        var output = "<table\(tableAttributes.description)>"
+        var output = "<table\(tableAttributes.description())>"
 
         if let caption {
             output += "<caption>\(caption)</caption>"

@@ -8,9 +8,15 @@
 import Foundation
 
 /// One slide in a `Carousel`.
-public struct Slide: BlockElement {
+public struct Slide: BlockHTML {
     /// The content and behavior of this HTML.
     public var body: some HTML { self }
+
+    /// The unique identifier of this HTML.
+    public var id = UUID().uuidString.truncatedHash
+
+    /// Whether this HTML belongs to the framework.
+    public var isPrimitive: Bool { true }
 
     /// How many columns this should occupy when placed in a section.
     public var columnWidth = ColumnWidth.automatic
@@ -45,7 +51,7 @@ public struct Slide: BlockElement {
     /// be placed on top of the background image.
     public init(background: String? = nil, @HTMLBuilder items: () -> [any HTML]) {
         self.background = background
-        self.items = items()
+        self.items = flatUnwrap(items())
     }
 
     /// Adjusts the opacity of the background image for this slide. Use values
@@ -86,6 +92,6 @@ public struct Slide: BlockElement {
     /// - Parameter context: The current publishing context.
     /// - Returns: The HTML for this element.
     public func render(context: PublishingContext) -> String {
-        FlatHTML(items).render(context: context)
+        items.map { $0.render(context: context) }.joined()
     }
 }

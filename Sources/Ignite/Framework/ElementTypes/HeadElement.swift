@@ -7,7 +7,5 @@
 
 import Foundation
 
-/// A metadata element that can exist in the `Head` struct.
-public protocol HeadElement: HTML {
-
-}
+/// A metadata element that can exist in the `HTMLHead` struct.
+public protocol HeadElement: HTML {}
